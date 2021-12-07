@@ -75,6 +75,11 @@ const Login = () => {
                             <p>Create an account!!</p>
                         </Link>
                     </div>
+                    <div className="flex items-center mb-4 justify-between">
+                        <Link to="/">  
+                            <p>Go Back Home!!</p>
+                        </Link>
+                    </div>
                     { errorMsg && <>
                     <div className="shadow appearance-none border bg-red-100 rounded w-full py-2 px-3 text-red-400 leading-tight focus:outline-none focus:shadow-outline">
                         {errorMsg}

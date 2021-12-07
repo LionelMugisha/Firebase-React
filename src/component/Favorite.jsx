@@ -43,8 +43,6 @@ const Favorite = ({totalFavorite}) => {
         })
     },[])
 
-    console.log(favorite);
-
     return (
         <>
             <Navbar user={user} totalFavorite={totalFavorite} />

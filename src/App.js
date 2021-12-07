@@ -5,6 +5,7 @@ import Login from './component/Login';
 import SignUp from './component/Signup';
 import AddMovie from './component/AddMovie';
 import ViewMovie from './component/ViewMovie';
+import MovieDetail from './component/MovieDetail';
 import Favorite from './component/Favorite';
 import NotFound from './component/NotFound';
 
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/add-movie" element={<AddMovie />} />
             <Route path="/view" element={<ViewMovie />} />
+            <Route path="/view-details/:ID" element={<MovieDetail />} />
             <Route path="/add-to-favorite" element={<Favorite />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

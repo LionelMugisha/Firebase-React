@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import Menu from "./images/bars-solid.svg";
 import Close from "./images/times-solid.svg";
 import { Link, useNavigate } from "react-router-dom";
 import './css/Header.css';
 import { auth } from './Config/Config';
+import { UserContext } from './context/UserContext'
+import { MovieContext } from './context/MovieContext';
 
-const Navbar = ({user,totalFavorite}) => {
-    
+const Navbar = () => {
+
+    const { totalFavorite } = useContext(MovieContext);
+    const { user } = useContext(UserContext);
+
     const navigate = useNavigate();
 
     const handleLogout = () => {

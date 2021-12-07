@@ -1,84 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
 import Product from './Products';
 import Navbar from './Navbar';
 import Loader from './Loader/Loader';
-import { auth, fs } from './Config/Config';
+import { fs } from './Config/Config';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from './context/UserContext'
+import { MovieContext } from './context/MovieContext';
 
 const Home = () => {
 
-    //get user uid
-    function GetUserUID(){
-        const [uid, setUid] = useState(null);
-        useEffect(() => {
-            auth.onAuthStateChanged(user => {
-                if(user){
-                    setUid(user.uid);
-                }
-            })
-        },[])
-        return uid;
-    }
+    const { movies  } = useContext(MovieContext);
+    const { uid } = useContext(UserContext);
 
-    const uid = GetUserUID();
     const navigate = useNavigate();
 
-    //get current user
-    function GetCurrentUser(){
-        const [user, setUser] = useState(null);
-        useEffect(() => {
-            auth.onAuthStateChanged(user => {
-                if(user){
-                    fs.collection('users').doc(user.uid)
-                        .get()
-                        .then(snapshot => {
-                            setUser(snapshot.data().FullName);
-                        })
-                } else {
-                    setUser(null)
-                }
-            })
-        }, [])
-        return user;
-    }
-    const user = GetCurrentUser();
-
-    const [movies, setMovies] = useState([]);
-     
-    //get movies
-    const getMovies = async () => {
-        const movies = await fs.collection('Movies').get();
-        const moviesArray = [];
-        for(var movie of movies.docs){
-            var result = movie.data();
-            result.ID = movie.id;
-            moviesArray.push({
-                ...result
-            })
-            if(moviesArray.length === movies.docs.length){
-                setMovies(moviesArray);
-            }
-        }
-    } 
-
-    //get total movies in the favorite
-    const [totalFavorite, setTotalFavorite] = useState(0);
-    useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            if(user){
-                fs.collection('Favorite' + user.uid).onSnapshot(snapshot => {
-                    const total = snapshot.docs.length;
-                    setTotalFavorite(total);
-                })
-            }
-        })
-    },[])
-
-    useEffect(() => {
-        getMovies();
-    },[])
-
-    //put movies to the favorite
     let Movi;
     const addToFavorite = (movie) => {
         if(uid !== null){
@@ -95,7 +30,7 @@ const Home = () => {
 
     return (
         <>
-            <Navbar user={user} totalFavorite={totalFavorite} />
+            <Navbar />
             {movies.length > 0 && (
                 <div className="max-w-6xl mx-auto rounded-sm mt-1 ml-92">
                     <Product movies={movies} addToFavorite={addToFavorite} />

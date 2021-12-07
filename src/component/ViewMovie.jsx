@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { fs, auth } from './Config/Config';
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
 import './css/cart.css';
 
 const DisplayMovie = () => {
@@ -49,19 +50,11 @@ const DisplayMovie = () => {
       getMovies();
     },[])
 
-    const handleDelete = (id) => {
-      console.log(); 
-    }
-
-    const handleSingleView = (id) => {
-      console.log(); 
-    }
-
     return (
       <>
         <Navbar user={user} />
         {viewMovie.map((item) => (
-          <div key={item.id} className="border mb-2 border-gray-200 lg:max-w-4xl md:max-w-lg shadow-lg sm:ml-6 md:ml-32 sm:pl-2 lg:pl-5 lg:ml-48">
+          <div key={item.ID} className="border mb-2 border-gray-200 lg:max-w-4xl md:max-w-lg shadow-lg sm:ml-6 md:ml-32 sm:pl-2 lg:pl-5 lg:ml-48">
             <div className="cart-items">
               <div >
                       <div className="cart-items-list">
@@ -76,18 +69,13 @@ const DisplayMovie = () => {
                             <div className="font-semibold">{item.category}</div>
                           </div>
                           <div className="cart-items-function">
-                            <button className="bg-transparent mr-5 mb-2 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-5 border border-blue-500 hover:border-transparent rounded"
+                            <Link to={`/view-details/${item.ID}`} >
+                              <button className="bg-transparent mr-5 mb-2 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-5 border border-blue-500 hover:border-transparent rounded"
                                 type="submit"
-                                onClick= {() => { handleSingleView(item.id) }}
                               >
                                 View
-                            </button>
-                            <button className="bg-transparent mr-5 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
-                              type="submit"
-                              onClick= {() => {handleDelete(item.id)}}
-                            >
-                              Delete
-                            </button>
+                              </button>
+                            </Link>
                           </div>
                       </div>
               </div>
