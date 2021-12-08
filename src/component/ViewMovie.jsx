@@ -1,59 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { fs, auth } from './Config/Config';
+import React, { useContext } from 'react'
 import Navbar from './Navbar';
 import { Link } from 'react-router-dom';
 import './css/cart.css';
+import { UserContext } from './context/UserContext'
+import { MovieContext } from './context/MovieContext';
 
 const DisplayMovie = () => {
 
-    //get current user
-    function GetCurrentUser(){
-      const [user, setUser] = useState(null);
-      useEffect(() => {
-          auth.onAuthStateChanged(user => {
-              if(user){
-                  fs.collection('users').doc(user.uid)
-                      .get()
-                      .then(snapshot => {
-                          setUser(snapshot.data().FullName);
-                      })
-              } else {
-                  setUser(null)
-              }
-          })
-      }, [])
-      return user;
-    }
-    const user = GetCurrentUser();
+  const { user } = useContext(UserContext);
+  const { movies } = useContext(MovieContext);
 
-    const [viewMovie, setViewMovie] = useState([]);
-
-    //get movies
-    const getMovies = async () => {
-        const movies = await fs.collection('Movies').get();
-        const moviesArray = [];
-        for(var movie of movies.docs){
-            var result = movie.data();
-            result.ID = movie.id;
-            moviesArray.push({
-                ...result
-            })
-            if(moviesArray.length === movies.docs.length){
-                setViewMovie(moviesArray);
-            }
-        }
-    } 
-
-    console.log(viewMovie);
-
-    useEffect(() => {
-      getMovies();
-    },[])
+  // console.log(movies);
 
     return (
       <>
         <Navbar user={user} />
-        {viewMovie.map((item) => (
+        {movies.map((item) => (
           <div key={item.ID} className="border mb-2 border-gray-200 lg:max-w-4xl md:max-w-lg shadow-lg sm:ml-6 md:ml-32 sm:pl-2 lg:pl-5 lg:ml-48">
             <div className="cart-items">
               <div >

@@ -26,6 +26,10 @@ const MovieContextProvider = (props) => {
         }
     } 
 
+    useEffect(() => {
+        getMovies();
+    },[])
+    
     //get total movies in the favorite
     const [totalFavorite, setTotalFavorite] = useState(0);
     useEffect(() => {
@@ -37,10 +41,6 @@ const MovieContextProvider = (props) => {
                 })
             }
         })
-    },[])
-
-    useEffect(() => {
-        getMovies();
     },[])
 
     const navigate = useNavigate();

@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { fs,auth } from './Config/Config';
 import Navbar from './Navbar';
 import FavoriteItem from './FavoriteItem';
+import { UserContext } from './context/UserContext'
+import { MovieContext } from './context/MovieContext'
 
-const Favorite = ({totalFavorite}) => {
+const Favorite = () => {
 
-    //get current user
-    function GetCurrentUser(){
-        const [user, setUser] = useState(null);
-        useEffect(() => {
-            auth.onAuthStateChanged(user => {
-                if(user){
-                    fs.collection('users').doc(user.uid)
-                        .get()
-                        .then(snapshot => {
-                            setUser(snapshot.data().FullName);
-                        })
-                } else {
-                    setUser(null)
-                }
-            })
-        }, [])
-        return user;
-    }
-    const user = GetCurrentUser();
+    const { user } = useContext(UserContext);
+    const { totalFavorite } = useContext(MovieContext);
 
     const [favorite, setFavorite] = useState([]);
     
